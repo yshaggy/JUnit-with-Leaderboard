@@ -64,4 +64,7 @@ public class LeaderboardImpl implements Leaderboard {
         currentBoard = new HashMap<>();
         topPlayer = null;
     }
+    public int size() {
+        return currentBoard.size();
+    }
 }
