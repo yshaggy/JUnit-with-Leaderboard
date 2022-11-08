@@ -14,6 +14,11 @@ public class LeaderboardImpl implements Leaderboard {
     }
     @Override
     public void addScore(String name, int score) {
+        if (currentBoard.containsKey(name)) {
+            if (currentBoard.get(name) > score) {
+                return;
+            }
+        }
         currentBoard.put(name, score);
         updateTopPlayer();
     }

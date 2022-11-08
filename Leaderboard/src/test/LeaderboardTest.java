@@ -17,12 +17,14 @@ public class LeaderboardTest {
     @Test
     public void testAddScore() {
         Leaderboard newBoard = new LeaderboardImpl();
+        newBoard.addScore("Paul Stotts", 210);
+        Assert.assertEquals(210, newBoard.getScore("Paul Stotts"));
         newBoard.addScore("Paul Stotts", 523);
         Assert.assertEquals(523, newBoard.getScore("Paul Stotts"));
         newBoard.addScore("Kris Jordan", 101);
-        //Testing to make sure getScore does not remove entry.
-        Assert.assertEquals(523, newBoard.getScore("Paul Stotts"));
         Assert.assertEquals(101, newBoard.getScore("Kris Jordan"));
+        newBoard.addScore("Paul Stotts", 401);
+        Assert.assertEquals(523, newBoard.getScore("Paul Stotts"));
     }
     @Test
     public void testDeleteScore() {
@@ -35,7 +37,15 @@ public class LeaderboardTest {
         Assert.assertEquals(101, newBoard.getScore("Kris Jordan"));
     }
     @Test
-    public void testGetScore() {}
+    public void testGetScore() {
+        Leaderboard newBoard = new LeaderboardImpl();
+        newBoard.addScore("Paul Stotts", 523);
+        Assert.assertEquals(523, newBoard.getScore("Paul Stotts"));
+        newBoard.addScore("Kris Jordan", 101);
+        //Testing to make sure getScore does not remove entry.
+        Assert.assertEquals(523, newBoard.getScore("Paul Stotts"));
+        Assert.assertEquals(101, newBoard.getScore("Kris Jordan"));
+    }
     @Test
     public void testGetTopPlayer() {}
     @Test
