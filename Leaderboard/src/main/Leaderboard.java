@@ -10,7 +10,7 @@ public interface Leaderboard {
     void addScore(String name, int score);
 
     /**
-     * Method should delete a player's score from the Leaderboard.
+     * Method should delete a player's score from the Leaderboard. If Player is not in Leaderboard, should throw an Illegal Argument Exception.
      * @param name - Player Name
      */
     void deleteScore(String name);

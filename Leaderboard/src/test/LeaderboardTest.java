@@ -52,6 +52,13 @@ public class LeaderboardTest {
         newBoard.deleteScore("Paul Stotts");
         Assert.assertEquals(0, sizeCheck.size());
 
+        //test deleteScore invalid parameter
+
+        try {
+            newBoard.deleteScore("Lightning McQueen");
+        } catch (IllegalArgumentException e) {
+            Assert.assertTrue(true);
+        }
     }
     @Test
     public void testGetScore() {
@@ -63,6 +70,7 @@ public class LeaderboardTest {
         //Testing to make sure getScore does not remove entry.
         Assert.assertEquals(523, newBoard.getScore("Paul Stotts"));
         Assert.assertEquals(101, newBoard.getScore("Kris Jordan"));
+
     }
     @Test
     public void testGetTopPlayer() {

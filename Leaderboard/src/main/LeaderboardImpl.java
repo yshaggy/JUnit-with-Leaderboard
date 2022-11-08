@@ -25,6 +25,9 @@ public class LeaderboardImpl implements Leaderboard {
 
     @Override
     public void deleteScore(String name) {
+        if (!currentBoard.containsKey(name)) {
+            throw new IllegalArgumentException();
+        }
         currentBoard.remove(name);
     }
 
