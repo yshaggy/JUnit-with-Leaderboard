@@ -6,27 +6,34 @@ import java.util.Map;
 public class LeaderboardImpl implements Leaderboard {
 
     private HashMap<String, Integer> currentBoard;
-    private Map.Entry<String, Integer> topPlayer = null;
+    private Map.Entry<String, Integer> topPlayer;
 
     public LeaderboardImpl() {
         currentBoard = new HashMap<>();
-
+        topPlayer = null;
     }
     @Override
     public void addScore(String name, int score) {
         if (currentBoard.containsKey(name)) {
-            if (currentBoard.get(name) > score) {
-                return;
+            if (score > currentBoard.get(name)) {
+                currentBoard.put(name, score);
             }
+        } else {
+            currentBoard.put(name, score);
         }
-        currentBoard.put(name, score);
-        updateTopPlayer();
+        if (currentBoard.size() == 1) {
+            topPlayer = currentBoard.entrySet().iterator().next();
+        } else if (score > topPlayer.getValue()) {
+            HashMap<String, Integer> tempBoard = new HashMap<>();
+            tempBoard.put(name,score);
+            topPlayer = tempBoard.entrySet().iterator().next();
+        }
     }
 
     @Override
     public void deleteScore(String name) {
         if (!currentBoard.containsKey(name)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("Invalid player");
         }
         currentBoard.remove(name);
     }
@@ -35,28 +42,20 @@ public class LeaderboardImpl implements Leaderboard {
     public int getScore(String name) {
         return currentBoard.get(name);
     }
-    private void updateTopPlayer(){
-        for (Map.Entry<String, Integer> a : currentBoard.entrySet()) {
-            if (topPlayer == null) {
-                topPlayer = a;
-            } else if (a.getValue() > topPlayer.getValue()) {
-                topPlayer = a;
-            }
-        }
-    }
+
     @Override
     public String getTopPlayer() {
         if (currentBoard.size() == 0) {
             return "No current entries!";
         }
-        //updateTopPlayer();
+
         return topPlayer.getKey();
     }
 
     @Override
     public int getTopScore() {
         if (currentBoard.size() == 0) {
-            return -999;
+            return 0;
         }
 
         return topPlayer.getValue();
@@ -67,7 +66,7 @@ public class LeaderboardImpl implements Leaderboard {
         currentBoard = new HashMap<>();
         topPlayer = null;
     }
-    public int size() {
+    public int getSize() {
         return currentBoard.size();
     }
 }
