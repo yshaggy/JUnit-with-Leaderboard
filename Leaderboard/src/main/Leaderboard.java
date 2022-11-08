@@ -20,7 +20,7 @@ public interface Leaderboard {
      * @param name - Player Name X
      * @return player X's score
      */
-    String getScore(String name);
+    int getScore(String name);
 
     /**
      * Method should retrieve the player with the high score.
