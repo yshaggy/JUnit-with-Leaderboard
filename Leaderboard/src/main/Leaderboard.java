@@ -23,7 +23,7 @@ public interface Leaderboard {
     int getScore(String name);
 
     /**
-     * Method should retrieve the player with the high score.
+     * Method should retrieve the player with the high score. Default is "No current entries!"
      * @return the player with the high score
      */
     String getTopPlayer();

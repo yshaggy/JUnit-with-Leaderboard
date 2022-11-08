@@ -15,6 +15,7 @@ public class LeaderboardImpl implements Leaderboard {
     @Override
     public void addScore(String name, int score) {
         currentBoard.put(name, score);
+        updateTopPlayer();
     }
 
     @Override
@@ -37,13 +38,19 @@ public class LeaderboardImpl implements Leaderboard {
     }
     @Override
     public String getTopPlayer() {
-        updateTopPlayer();
+        if (currentBoard.size() == 0) {
+            return "No current entries!";
+        }
+        //updateTopPlayer();
         return topPlayer.getKey();
     }
 
     @Override
     public int getTopScore() {
-        updateTopPlayer();
+        if (currentBoard.size() == 0) {
+            return -999;
+        }
+
         return topPlayer.getValue();
     }
 
