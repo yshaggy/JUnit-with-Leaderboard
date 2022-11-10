@@ -2,6 +2,8 @@ package test;
 
 import main.Scoreboard;
 import static org.junit.Assert.*;
+
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class ScoreboardTest {
@@ -110,8 +112,8 @@ public class ScoreboardTest {
         assertEquals(1, b.getSize());
     }
 
-    @Test
-    public void TestAddingSameScore() {
+    @Ignore // change this to @Test for it to run
+    public void TestTopPlayerTie() {
         Scoreboard b = new Scoreboard();
         b.addScore("Sibling 1", 98);
         b.addScore("Sibling 2", 98);
