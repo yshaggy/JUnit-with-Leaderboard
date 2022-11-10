@@ -35,7 +35,9 @@ If you want to create JUnit tests from scratch, here are some things you should 
 4. Fill in the gaps! (What else could you be missing?)
 
 ## Coding in JUnit
-Go to the `YourTest` class in the `.test` folder, where we've set up a template test class for you.
+Go to the `YourTest` class in the `.test` folder, where we've set up a template test class for you!
+Feel free to write test for either the `Scoreboard` class and/or `YourClass`.
+The `ScoreboardTest` class contains fully written tests for you to play around with!
 
 If you skipped the brainstorming phase, here is a guided list of features/functionality to test:
 1. Initialization
