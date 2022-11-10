@@ -3,40 +3,43 @@ package main;
 public interface Leaderboard {
 
     /**
-     * Method should add a player's name and score to Leaderboard
-     * @param name - Player Name
-     * @param score - Player Score
+     * Add a player's name and score (0-999) to leaderboard.
+     * If player is already in leaderboard, update if new score is higher than the original.
+     * @param name - player name
+     * @param score - player score
      */
     void addScore(String name, int score);
 
     /**
-     * Method should delete a player's score from the Leaderboard. If Player is not in Leaderboard, should throw an Illegal Argument Exception.
+     * Delete a player's score from the leaderboard.
+     * If player is not in leaderboard, throw an IllegalArgumentException.
      * @param name - Player Name
      */
     void deleteScore(String name);
 
     /**
-     * Method should retrieve a player's score based on their name.
+     * Retrieve a player's score from the leaderboard.
+     * If player is not in leaderboard, throw an IllegalArgumentException.
      * @param name - Player Name X
      * @return player X's score
      */
     int getScore(String name);
 
     /**
-     * Method should retrieve the player with the high score. Default is "No current entries!"
-     * @return the player with the high score
+     * Retrieve the player with the highest score.
+     * If no scores in the leaderboard, returns "No current entries!"
+     * @return top player's name
      */
     String getTopPlayer();
 
     /**
-     * Method should retrieve the high score of the Leaderboard.
-     * @return the high score
+     * Retrieve the highest score.
+     * @return top player's score
      */
     int getTopScore();
 
     /**
-     * Method should reset the Leaderboard.
+     * Reset the leaderboard.
      */
-
     void reset();
 }

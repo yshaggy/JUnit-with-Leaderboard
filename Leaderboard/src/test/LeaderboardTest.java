@@ -2,124 +2,165 @@ package test;
 
 
 import main.Leaderboard;
-import main.LeaderboardImpl;
-import org.junit.Assert;
+import main.Scoreboard;
+
+
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class LeaderboardTest {
     @Test
-    public void testConstructor() {
-        Leaderboard newBoard = new LeaderboardImpl();
-        Assert.assertNotNull(newBoard);
-        Assert.assertEquals(0, newBoard.getTopScore());
-        Assert.assertEquals("No current entries!", newBoard.getTopPlayer());
+    public void TestInitialState() {
+        Scoreboard b = new Scoreboard();
+        assertNotNull(b);
+        assertEquals(0, b.getTopScore());
+        assertEquals("No current entries!", b.getTopPlayer());
     }
+
     @Test
-    public void testAddScore() {
-        Leaderboard newBoard = new LeaderboardImpl();
-        newBoard.addScore("Paul Stotts", 210);
-        Assert.assertEquals(210, newBoard.getScore("Paul Stotts"));
-        newBoard.addScore("Paul Stotts", 523);
-        //Check to make sure better scores update
-        Assert.assertEquals(523, newBoard.getScore("Paul Stotts"));
-        LeaderboardImpl checkSize = (LeaderboardImpl) newBoard;
-        Assert.assertEquals(1,checkSize.getSize());
+    public void TestAddingScore() {
+        Scoreboard b = new Scoreboard();
+        b.addScore("Kris Jordan", 101);
+        assertEquals(101, b.getScore("Kris Jordan"));
+        assertEquals(1, b.getSize());
 
-        //Check to make sure lower scores don't update
-        newBoard.addScore("Paul Stotts", 410);
-        Assert.assertEquals(523, newBoard.getScore("Paul Stotts"));
-
-
-        //Check to make sure size is updating with multiple added scores.
-        newBoard.addScore("Kris Jordan", 101);
-        newBoard.addScore("Henry Fuchs", 311);
-        LeaderboardImpl checkSize_2 = (LeaderboardImpl) newBoard;
-        Assert.assertEquals(3, checkSize_2.getSize());
+        b.addScore("Henry Fuchs", 311);
+        assertEquals(311, b.getScore("Henry Fuchs"));
+        assertEquals(2, b.getSize());
     }
+
     @Test
-    public void testDeleteScore() {
-        Leaderboard newBoard = new LeaderboardImpl();
-        newBoard.addScore("Paul Stotts", 523);
-        newBoard.addScore("Kris Jordan", 101);
-
-        //test deleteScore
-        newBoard.deleteScore("Kris Jordan");
-        Assert.assertEquals(523, newBoard.getScore("Paul Stotts"));
-        LeaderboardImpl sizeCheck = (LeaderboardImpl) newBoard;
-        Assert.assertEquals(1, sizeCheck.getSize());
-
-        //test deleteScore multiple times
-        newBoard.deleteScore("Paul Stotts");
-        Assert.assertEquals(0, sizeCheck.getSize());
-
-        //test deleteScore invalid parameter
+    public void TestRetrievingInvalidScore() {
+        Scoreboard b = new Scoreboard();
+        b.addScore("Player One",100);
 
         try {
-            newBoard.deleteScore("Lightning McQueen");
-        } catch (IllegalArgumentException e) {
-            Assert.assertTrue(true);
+            b.getScore("Player 1");
+            fail();
+        } catch (IllegalArgumentException iae) {
+            assertTrue(true);
         }
     }
-    @Test
-    public void testGetScore() {
-        Leaderboard newBoard = new LeaderboardImpl();
-        newBoard.addScore("Paul Stotts", 523);
-        //Testing getScore method.
-        Assert.assertEquals(523, newBoard.getScore("Paul Stotts"));
-        newBoard.addScore("Kris Jordan", 101);
-        //Testing to make sure getScore does not remove entry.
-        Assert.assertEquals(523, newBoard.getScore("Paul Stotts"));
-        Assert.assertEquals(101, newBoard.getScore("Kris Jordan"));
 
-    }
     @Test
-    public void testGetTopPlayer() {
-        Leaderboard newBoard = new LeaderboardImpl();
+    public void TestUpdatingScore() {
+        Scoreboard b = new Scoreboard();
+        b.addScore("Paul Stotts", 210);
+        assertEquals(210, b.getScore("Paul Stotts"));
+        assertEquals("Paul Stotts", b.getTopPlayer());
+        assertEquals(210, b.getTopScore());
+
+        // Higher scores for same player should update
+        b.addScore("Paul Stotts", 523);
+        assertEquals(523, b.getScore("Paul Stotts"));
+        assertEquals("Paul Stotts", b.getTopPlayer());
+        assertEquals(523, b.getTopScore());
+
+        // Lower scores for same player should not update
+        b.addScore("Paul Stotts", 410);
+        assertEquals(523, b.getScore("Paul Stotts"));
+        assertEquals("Paul Stotts", b.getTopPlayer());
+        assertEquals(523, b.getTopScore());
+        assertEquals(1, b.getSize());
+    }
+
+    @Test
+    public void TestBoardCapacity() {
+        Scoreboard b = new Scoreboard();
+        b.addScore("Kris Jordan", 101);
+        b.addScore("Henry Fuchs", 311);
+        b.addScore("KMP", 301);
+        b.addScore("Paul Stotts", 523);
+        b.addScore("John Majikes", 550);
+        assertEquals(5, b.getSize());
+        assertEquals("John Majikes", b.getTopPlayer());
+        assertEquals(550, b.getTopScore());
+
+        // Adding a new score when board is at capacity should not update board
+        b.addScore("Deadpool", 800);
+        assertEquals(5, b.getSize());
+        assertEquals(101, b.getScore("Kris Jordan"));
+        assertEquals(311, b.getScore("Henry Fuchs"));
+        assertEquals(301, b.getScore("KMP"));
+        assertEquals(523, b.getScore("Paul Stotts"));
+        assertEquals(550, b.getScore("John Majikes"));
+        assertEquals("John Majikes", b.getTopPlayer());
+        assertEquals(550, b.getTopScore());
+    }
+
+    @Test
+    public void TestDeletingScore() {
+        Scoreboard b = new Scoreboard();
+        b.addScore("Paul Stotts", 523);
+        b.addScore("Kris Jordan", 101);
+
+        //
+        b.deleteScore("Kris Jordan");
+        assertEquals(523, b.getScore("Paul Stotts"));
+        assertEquals(1, b.getSize());
+
+        //test deleteScore multiple times
+        b.deleteScore("Paul Stotts");
+        assertEquals(0, b.getSize());
+
+        // Test deleteScore invalid parameter
+        try {
+            b.deleteScore("Lightning McQueen");
+            fail();
+        } catch (IllegalArgumentException e) {
+            assertTrue(true);
+        }
+    }
+
+    @Test
+    public void topPlayerTest() {
+        Leaderboard newBoard = new Scoreboard();
         //checking for no entries
-        Assert.assertEquals("No current entries!", newBoard.getTopPlayer());
+        assertEquals("No current entries!", newBoard.getTopPlayer());
         //checking for one entry
         newBoard.addScore("Brent Munsell", 211);
-        Assert.assertEquals("Brent Munsell", newBoard.getTopPlayer());
+        assertEquals("Brent Munsell", newBoard.getTopPlayer());
         newBoard.addScore("Ketan Mayer-Patel", 401);
         newBoard.addScore("Jack Snoeyink", 283);
         //checking for multiple entries
-        Assert.assertEquals("Ketan Mayer-Patel", newBoard.getTopPlayer());
+        assertEquals("Ketan Mayer-Patel", newBoard.getTopPlayer());
         newBoard.reset();
         //checking with  reset
-        Assert.assertEquals("No current entries!", newBoard.getTopPlayer());
+        assertEquals("No current entries!", newBoard.getTopPlayer());
     }
     @Test
-    public void testGetTopScore() {
-        Leaderboard newBoard = new LeaderboardImpl();
+    public void topScoreTest() {
+        Leaderboard newBoard = new Scoreboard();
         //checking for no entries
-        Assert.assertEquals(0, newBoard.getTopScore());
+        assertEquals(0, newBoard.getTopScore());
         //checking for one entry
         newBoard.addScore("Brent Munsell", 211);
-        Assert.assertEquals(211, newBoard.getTopScore());
+        assertEquals(211, newBoard.getTopScore());
         newBoard.addScore("Ketan Mayer-Patel", 401);
         newBoard.addScore("Jack Snoeyink", 283);
         //checking for multiple entries
-        Assert.assertEquals(401, newBoard.getTopScore());
+        assertEquals(401, newBoard.getTopScore());
         newBoard.reset();
         //checking with  reset
-        Assert.assertEquals(0, newBoard.getTopScore());
+        assertEquals(0, newBoard.getTopScore());
     }
     @Test
-    public void testReset() {
-        Leaderboard newBoard = new LeaderboardImpl();
+    public void resetTest() {
+        Scoreboard newBoard = new Scoreboard();
         newBoard.addScore("Ketan Mayer-Patel", 401);
         newBoard.addScore("Jack Snoeyink", 283);
-        LeaderboardImpl checkSize = (LeaderboardImpl) newBoard;
         //checking that leaderboard is not initially empty
-        Assert.assertEquals(2, checkSize.getSize());
+        assertEquals(2, newBoard.getSize());
         newBoard.reset();
         //checking that TopPlayer updates
-        Assert.assertEquals("No current entries!", newBoard.getTopPlayer());
-        Assert.assertEquals(0, newBoard.getTopScore());
+        assertEquals("No current entries!", newBoard.getTopPlayer());
+        assertEquals(0, newBoard.getTopScore());
         //checking that Leaderboard is empty
-        LeaderboardImpl checkSize_2 = (LeaderboardImpl) newBoard;
-        Assert.assertEquals(0, checkSize_2.getSize());
+        assertEquals(0, newBoard.getSize());
     }
 }
+
+
+
 
 
