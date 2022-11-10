@@ -1,8 +1,8 @@
 package main;
 
-public class LeaderboardImpl implements Leaderboard {
+public class YourClass implements Leaderboard {
 
-    public LeaderboardImpl() {
+    public YourClass() {
 
     }
 

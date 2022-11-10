@@ -15,14 +15,11 @@ public class Scoreboard implements Leaderboard {
 
     @Override
     public void addScore(String name, int score) {
-        if (score < 0 || score > 999 || name == null) {
+        if (score < 0 || score > 999 || name == null || name.equals("")) {
             throw new IllegalArgumentException("Invalid score entry!");
         }
         if (getSize() < 5 && score >= board.getOrDefault(name, 0)) {
             board.put(name, score);
-        }
-        for (Map.Entry<String, Integer> e : board.entrySet()) {
-            System.out.println(e.getKey() + ", " + e.getValue());
         }
         updateTopPlayer();
     }
@@ -38,6 +35,12 @@ public class Scoreboard implements Leaderboard {
 
     // Simple way to update program state, since hashmap since never goes above 5 entries
     private void updateTopPlayer() {
+        if (getSize() == 0) {
+            topPlayer = "No current entries!";
+            topScore = 0;
+            return;
+        }
+
         // Reset to default values, in case the previous top player + score were deleted
         topPlayer = "";
         topScore = 0;
@@ -62,7 +65,6 @@ public class Scoreboard implements Leaderboard {
 
     @Override
     public String getTopPlayer() {
-        System.out.println(topPlayer);
         return topPlayer;
     }
 

@@ -41,6 +41,17 @@ public class ScoreboardTest {
             fail("Name cannot be null");
         }
 
+        // "" name
+        threwCorrectly = false;
+        try {
+            b.addScore("", 567);
+        } catch (IllegalArgumentException iae) {
+            threwCorrectly = true;
+        }
+        if (!threwCorrectly) {
+            fail("Name cannot be an empty string");
+        }
+
         // Score < 0
         threwCorrectly = false;
         try {
@@ -110,30 +121,6 @@ public class ScoreboardTest {
     }
 
     @Test
-    public void TestBoardCapacity() {
-        Scoreboard b = new Scoreboard();
-        b.addScore("Kris Jordan", 101);
-        b.addScore("Henry Fuchs", 311);
-        b.addScore("KMP", 301);
-        b.addScore("Paul Stotts", 523);
-        b.addScore("John Majikes", 550);
-        assertEquals(5, b.getSize());
-        assertEquals("John Majikes", b.getTopPlayer());
-        assertEquals(550, b.getTopScore());
-
-        // Adding a new score when board is at capacity should not update board
-        b.addScore("Deadpool", 800);
-        assertEquals(5, b.getSize());
-        assertEquals(101, b.getScore("Kris Jordan"));
-        assertEquals(311, b.getScore("Henry Fuchs"));
-        assertEquals(301, b.getScore("KMP"));
-        assertEquals(523, b.getScore("Paul Stotts"));
-        assertEquals(550, b.getScore("John Majikes"));
-        assertEquals("John Majikes", b.getTopPlayer());
-        assertEquals(550, b.getTopScore());
-    }
-
-    @Test
     public void TestDeletingScore() {
         Scoreboard b = new Scoreboard();
 
@@ -189,12 +176,52 @@ public class ScoreboardTest {
     }
 
     @Test
+    public void TestBoardCapacity() {
+        Scoreboard b = new Scoreboard();
+        b.addScore("Kris Jordan", 101);
+        b.addScore("Henry Fuchs", 311);
+        b.addScore("KMP", 301);
+        b.addScore("Paul Stotts", 523);
+        b.addScore("John Majikes", 550);
+        assertEquals(5, b.getSize());
+        assertEquals("John Majikes", b.getTopPlayer());
+        assertEquals(550, b.getTopScore());
+
+        // Adding a new score when board is at capacity should not update board
+        b.addScore("Deadpool", 800);
+        assertEquals(5, b.getSize());
+        assertEquals(101, b.getScore("Kris Jordan"));
+        assertEquals(311, b.getScore("Henry Fuchs"));
+        assertEquals(301, b.getScore("KMP"));
+        assertEquals(523, b.getScore("Paul Stotts"));
+        assertEquals(550, b.getScore("John Majikes"));
+        assertEquals("John Majikes", b.getTopPlayer());
+        assertEquals(550, b.getTopScore());
+
+        b.deleteScore("Paul Stotts");
+        b.deleteScore("John Majikes");
+        b.deleteScore("KMP");
+        b.deleteScore("Kris Jordan");
+        b.deleteScore("Henry Fuchs");
+
+        assertEquals("No current entries!", b.getTopPlayer());
+        assertEquals(0, b.getTopScore());
+        assertEquals(0, b.getSize());
+    }
+
+    @Test
     public void TestResetBoard() {
         Scoreboard b = new Scoreboard();
         b.addScore("KMP", 301);
         b.addScore("Jack Snoeyink", 283);
         assertEquals(2, b.getSize());
 
+        b.reset();
+        assertEquals("No current entries!", b.getTopPlayer());
+        assertEquals(0, b.getTopScore());
+        assertEquals(0, b.getSize());
+
+        // Try to reset again, expect the same results
         b.reset();
         assertEquals("No current entries!", b.getTopPlayer());
         assertEquals(0, b.getTopScore());
