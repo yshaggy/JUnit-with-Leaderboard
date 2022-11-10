@@ -37,7 +37,9 @@ If you want to create JUnit tests from scratch, here are some things you should 
 ## Coding in JUnit
 Go to the `YourTest` class in the `.test` folder, where we've set up a template test class for you!
 Feel free to write test for either the `Scoreboard` class and/or `YourClass`.
+
 The `ScoreboardTest` class contains fully written tests for you to play around with!
+(Note: one test has the annotation `@Ignore`, which addresses an edge case under bullet #4 below. To include the test when running, simply change the annotation to `@Test`.)
 
 If you skipped the brainstorming phase, here is a guided list of features/functionality to test:
 1. Initialization
