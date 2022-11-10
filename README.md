@@ -16,7 +16,7 @@ If you would like to start from a blank template, we have a `Leaderboard` interf
 If you don't want the extra practice of reviewing Java code syntax and **skip straight to exploring JUnit**, we've provided a solution class that implements the `Leaderboard` interface for you (`Scoreboard`).
 
 ## JUnit Code
-* 
+
 
 
 1. Initialization

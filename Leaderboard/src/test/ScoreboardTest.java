@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class ScoreboardTest {
+
     @Test
     public void TestInitialState() {
         Scoreboard b = new Scoreboard();
