@@ -12,14 +12,17 @@ public class Scoreboard implements Leaderboard {
     public Scoreboard() {
         reset();
     }
+
     @Override
     public void addScore(String name, int score) {
-        if (score < 0 || score > 999) {
-            throw new IllegalArgumentException("Score needs to be between 0 and 999!");
+        if (score < 0 || score > 999 || name == null) {
+            throw new IllegalArgumentException("Invalid score entry!");
         }
-
         if (getSize() < 5 && score >= board.getOrDefault(name, 0)) {
             board.put(name, score);
+        }
+        for (Map.Entry<String, Integer> e : board.entrySet()) {
+            System.out.println(e.getKey() + ", " + e.getValue());
         }
         updateTopPlayer();
     }
@@ -36,20 +39,22 @@ public class Scoreboard implements Leaderboard {
     // Simple way to update program state, since hashmap since never goes above 5 entries
     private void updateTopPlayer() {
         // Reset to default values, in case the previous top player + score were deleted
-        topPlayer = "No current entries!";
+        topPlayer = "";
         topScore = 0;
 
         for (Map.Entry<String, Integer> e : board.entrySet()) {
             if (e.getValue() > topScore) {
                 topPlayer = e.getKey();
                 topScore = e.getValue();
+            } else if (e.getValue() == topScore) {
+                topPlayer = "TIE";
             }
         }
     }
 
     @Override
     public int getScore(String name) {
-        if (!board.containsKey("name")) {
+        if (!board.containsKey(name)) {
             throw new IllegalArgumentException("Cannot get score for invalid player");
         }
         return board.get(name);
@@ -57,6 +62,7 @@ public class Scoreboard implements Leaderboard {
 
     @Override
     public String getTopPlayer() {
+        System.out.println(topPlayer);
         return topPlayer;
     }
 
@@ -72,6 +78,7 @@ public class Scoreboard implements Leaderboard {
         topScore = 0;
     }
 
+    @Override
     public int getSize() {
         return board.size();
     }

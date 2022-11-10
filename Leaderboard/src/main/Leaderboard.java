@@ -28,6 +28,7 @@ public interface Leaderboard {
     /**
      * Retrieve the player with the highest score.
      * If no scores in the leaderboard, returns "No current entries!"
+     * If multiple players have the highest score, returns "TIE"
      * @return top player's name
      */
     String getTopPlayer();
@@ -42,4 +43,9 @@ public interface Leaderboard {
      * Reset the leaderboard.
      */
     void reset();
+
+    /**
+     * Retrieve the number of entries that are in the board (max 5).
+     */
+    int getSize();
 }
