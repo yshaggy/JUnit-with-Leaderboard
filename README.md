@@ -17,6 +17,22 @@ If you would like to start from a blank template, we have a `Leaderboard` interf
 
 If you don't want the extra practice of reviewing Java code syntax and **skip straight to exploring JUnit**, we've provided a solution class that implements the `Leaderboard` interface for you (`Scoreboard`).
 
+
+## Demo Walkthrough (Presentation)
+The `Scoreboard` class is currently buggy (part of code is commented out) -- it change the top player value to get "TIE" when two players have the same top score!
+* Run the `ScoreboardTest` class with coverage. Do all the tests pass? (yes, and you have 100% code coverage)
+
+This shows that just because you have 100% code coverage and a lot of test methods, your code may still not functional properly! It's important to consider ALL use and edge cases during test-driven development.
+* Let's go into `ScoreboardTest` and scroll all the way down. Change the `@Ignore` notation for the last test method to `@Test` so it will run.
+* Run `ScoreboardTest` tests again. Do all the tests pass? (no, the test case we just added didn't pass)
+
+We've found our bug, now time to fix it.
+* Go into the `Scoreboard` class and uncomment code in the `updateTopPlayer()` method for a fully functional class.
+* Run all tests in the `ScoreboardTest` class again!
+
+This time, you should see all tests pass.
+
+
 ## Brainstorming
 If you want to create JUnit tests from scratch, here are some things you should consider while brainstorming what to test for!
 
@@ -36,7 +52,7 @@ If you want to create JUnit tests from scratch, here are some things you should 
 
 ## Coding in JUnit
 Go to the `YourTest` class in the `.test` folder, where we've set up a template test class for you!
-Feel free to write test for either the `Scoreboard` class and/or `YourClass`.
+Feel free to write test for either the `Scoreboard` class and/or `YourClass`. If you use our solution class, please go through the Demo Walkthrough first!
 
 The `ScoreboardTest` class contains fully written tests for you to play around with!
 (Note: one test has the annotation `@Ignore`, which addresses an edge case under bullet #4 below. To include the test when running, simply change the annotation to `@Test`.)
@@ -72,6 +88,4 @@ If you skipped the brainstorming phase, here is a guided list of features/functi
    * If the current top player's score gets deleted, the top player name and score need to be updated accordingly
    * If all score entries are deleted from the board, the program state should be the same as the intiial state
    * See if you can think of any more cases to cover!
-
-
 

@@ -49,9 +49,13 @@ public class Scoreboard implements Leaderboard {
             if (e.getValue() > topScore) {
                 topPlayer = e.getKey();
                 topScore = e.getValue();
-            } else if (e.getValue() == topScore) {
+            }
+            // Uncomment below for a fully functional class
+            /**
+            else if (e.getValue() == topScore) {
                 topPlayer = "TIE";
             }
+             */
         }
     }
 

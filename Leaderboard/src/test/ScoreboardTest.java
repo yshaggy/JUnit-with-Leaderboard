@@ -33,6 +33,8 @@ public class ScoreboardTest {
         Scoreboard b = new Scoreboard();
         boolean threwCorrectly = false;
 
+        /** Can separate into different tests for better isolation! */
+
         // Null name
         try {
             b.addScore(null, 85);
@@ -110,16 +112,6 @@ public class ScoreboardTest {
         assertEquals("Paul Stotts", b.getTopPlayer());
         assertEquals(523, b.getTopScore());
         assertEquals(1, b.getSize());
-    }
-
-    @Ignore // change this to @Test for it to run
-    public void TestTopPlayerTie() {
-        Scoreboard b = new Scoreboard();
-        b.addScore("Sibling 1", 98);
-        b.addScore("Sibling 2", 98);
-
-        assertEquals("TIE", b.getTopPlayer());
-        assertEquals(98, b.getTopScore());
     }
 
     @Test
@@ -230,6 +222,15 @@ public class ScoreboardTest {
         assertEquals(0, b.getSize());
     }
 
+    @Ignore // change this to @Test for it to run
+    public void TestTopPlayerTie() {
+        Scoreboard b = new Scoreboard();
+        b.addScore("Paul Stotts", 999);
+        b.addScore("KMP", 999);
+
+        assertEquals("TIE", b.getTopPlayer());
+        assertEquals(999, b.getTopScore());
+    }
 }
 
 
